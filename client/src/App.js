@@ -6,7 +6,7 @@ import AdminDashboard from './pages/admin/adminDashboard';
 import HomePage from './pages/customer/homePage';
 import Error from './pages/Error';
 import ProductDetails from './pages/customer/ProductDetails';
-
+import Auth from './pages/admin/Auth';
 function App() {
   return (
     <div className="App">
@@ -19,6 +19,8 @@ function App() {
           <Route path="product/:id" element={<ProductDetails />} />
         </Route>
         <Route path="*" element={<Error />} />
+        <Route path="/auth" element={<Auth />} />
+
       </Routes>
     </div>
   );

@@ -5,12 +5,12 @@ const Navbar = () => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
   const inputRef = useRef();
 
-  useEffect(() => {
+ 
+ useEffect(() => {
     if (searchBoxVisibility) {
       inputRef.current.focus();
     }
   }, [searchBoxVisibility]);
-
   const handleSearchClick = () => {
     setSearchBoxVisibility(!searchBoxVisibility);
   };
