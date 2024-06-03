@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import InputBox from '../../components/common/InputBox';
 
 function AddProducts(props) {
-    
+
     return (
         <div className='md:m-20 m-5'>
+            <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start mb-10 '><Link to={"/admin"}> <span className='font-semibold text-xl'>dashboard</span> </Link> &gt; add products</h1>
+
             <InputBox
                 name="title"
                 type="text"

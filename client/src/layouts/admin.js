@@ -1,15 +1,14 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import LeftMenu from '../components/admin/leftMenu';
+import { Link } from 'react-router-dom';
 
-function admin(props) {
+function Admin(props) {
     return (
-        <div>
-           <h1>backend content</h1>
-              <LeftMenu />
-              <Outlet/>
+        <div className="relative min-h-screen">
+            <Outlet />
+         
         </div>
     );
 }
 
-export default admin;
+export default Admin;

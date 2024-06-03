@@ -2,13 +2,17 @@ import React from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import InputBox from '../../components/common/InputBox';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Auth() {
+    const navigate = useNavigate();
 
     const userAuthThroughServer = (serverRoute, formData) => {
         axios.post(import.meta.env.VITE_SERVER_DOMAIN + serverRoute, formData)
             .then(({ data }) => {
                 console.log(data);
+                // Redirect to admin page on successful authentication
+                navigate('/admin');
             })
             .catch(({ response }) => {
                 toast.error(response.data.msg);
@@ -70,12 +74,15 @@ function Auth() {
                         placeholder="Password"
                         icon="fi-rr-key"
                     />
+                    {/* link only for texting purpose */}
+                    <Link to="/admin">
                     <button
                         className="btn-dark center mt-14"
                         type="submit"
                     >
                         Login
                     </button>
+                    </Link>
                 </form>
             </section>
         </div>

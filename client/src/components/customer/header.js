@@ -56,7 +56,7 @@ const Navbar = () => {
             <i className="fi fi-rr-search"></i>
           </button>
 
-          <Link to="/about" className="py-3 px-9 md:block">
+          <Link to="/auth" className="py-3 px-9 md:block">
             <i className="fi fi-br-shopping-bag text-[20px]"></i>
           </Link>
         </div>
