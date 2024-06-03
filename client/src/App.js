@@ -7,6 +7,7 @@ import HomePage from './pages/customer/homePage';
 import Error from './pages/Error';
 import ProductDetails from './pages/customer/ProductDetails';
 import Auth from './pages/admin/Auth';
+import AddProducts from './pages/admin/AddProducts';
 function App() {
   return (
     <div className="App">
@@ -20,7 +21,7 @@ function App() {
         </Route>
         <Route path="*" element={<Error />} />
         <Route path="/auth" element={<Auth />} />
-
+        <Route path="/add-products" element={<AddProducts />} />
       </Routes>
     </div>
   );
