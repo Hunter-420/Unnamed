@@ -1,6 +1,6 @@
 import React from 'react';
 import Samphoo from '../../images/samphoo.jpg'
-import ProductCard from '../../components/customer/ProductCard';
+import ProductCard from '../../components/common/ShowProducts';
 import Product from '../../data/Products.json';
 
 
@@ -20,6 +20,7 @@ function homePage(props) {
             year={product.year}
             manufacturer={product.manufacturer}
             price={product.price}
+            type="customer"
           />
         );
       })}

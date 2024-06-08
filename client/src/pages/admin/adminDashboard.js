@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ShowProducts from '../../components/admin/ShowProducts';
+import ShowProducts from '../../components/common/ShowProducts';
 import LeftMenu from '../../components/admin/leftMenu'
 import Product from '../../data/Products.json'
 
@@ -22,6 +22,7 @@ function adminDashboard(props) {
                             title={product.title}
                             manufacturer={product.manufacturer}
                             price={product.price}
+                            type="admin"
                         />
                     );
                 })}
