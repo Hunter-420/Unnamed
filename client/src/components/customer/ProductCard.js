@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-const ProductCard = ({ index, src, alt, title, year, manufacturer, price }) => {
+const ProductCard = ({ index,id, src, alt, title, year, manufacturer, price }) => {
   const [added, setAdded] = useState(false); // State to track whether the product is added
 
   const handleAddClick = () => {
@@ -11,7 +11,7 @@ const ProductCard = ({ index, src, alt, title, year, manufacturer, price }) => {
   return (
     <div className={`max-sm:mt-3 max-w-fit md:max-w-sm rounded overflow-hidden shadow-lg bg-white p-3 ${added ? 'bg-green-200' : ''}`}>
       <div className="px-3 py-4">
-        <Link to={`/product/${index}`} >
+        <Link to={`/product/${id}`} >
           <img className="w-fit" src={src} alt={alt} />
         </Link>
         <div className='flex mt-2'>

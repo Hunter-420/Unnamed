@@ -8,6 +8,7 @@ import Error from './pages/Error';
 import ProductDetails from './pages/customer/ProductDetails';
 import Auth from './pages/admin/Auth';
 import AddProducts from './pages/admin/AddProducts';
+import UpdateProduct from './pages/admin/UpdateProduct';
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
         <Route path="*" element={<Error />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/add-products" element={<AddProducts />} />
+        <Route path="/update-product/:id" element={<UpdateProduct />} />
       </Routes>
     </div>
   );

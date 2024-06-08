@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "src": "/images/samphoo.jpg",
+        "alt": "Organic Extra Virgin Coconut Oil",
+        "title": "Organic Extra Virgin Coconut Oil",
+        "description": "A premium quality organic extra virgin coconut oil. Perfect for cooking, skincare, and haircare.",
+        "year": "2024",
+        "manufacturer": "KIM THOA",
+        "price": 38.00
+    },
+    {
+        "id": 2,
+        "src": "/images/samphoo.jpg",
+        "alt": "Organic Extra Virgin Olive Oil",
+        "title": "Organic Extra Virgin Olive Oil",
+        "description": "Cold-pressed extra virgin olive oil. Ideal for salads, dressings, and healthy cooking.",
+        "year": "2023",
+        "manufacturer": "NATURA",
+        "price": 25.00
+    },
+    {
+        "id": 3,
+        "src": "/images/samphoo.jpg",
+        "alt": "Pure Raw Honey",
+        "title": "Pure Raw Honey",
+        "description": "100% pure raw honey. Harvested naturally and unprocessed, preserving all nutrients.",
+        "year": "2024",
+        "manufacturer": "HONEY GOLD",
+        "price": 15.00
+    },
+    {
+        "id": 4,
+        "src": "/images/samphoo.jpg",
+        "alt": "Natural Almond Butter",
+        "title": "Natural Almond Butter",
+        "description": "Smooth and creamy almond butter made from roasted almonds. No added sugar or salt.",
+        "year": "2023",
+        "manufacturer": "NUTTY",
+        "price": 10.00
+    },
+    {
+        "id": 5,
+        "src": "/images/samphoo.jpg",
+        "alt": "Organic Chia Seeds",
+        "title": "Organic Chia Seeds",
+        "description": "High-fiber organic chia seeds. Perfect for smoothies, baking, and a healthy diet.",
+        "year": "2024",
+        "manufacturer": "SEEDY",
+        "price": 8.00
+    }
+]

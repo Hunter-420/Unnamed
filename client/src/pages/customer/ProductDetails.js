@@ -1,15 +1,19 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import Samphoo from '../../images/samphoo.jpg';
+import Product from '../../data/Products.json';
 
-const product = {
-    src: Samphoo,
-    alt: 'Samphoo',
-    title: 'JBL Tune 525BT',
-    description: 'A Series of tools designed and engineered to empower creators, makers, and codes to master what they make.',
-    price: '$99.99'
-};
+
 
 function ProductDetails(props) {
+    const { id } = useParams();
+    const productId = parseInt(id, 10);
+    const product = Product.find(product => product.id === productId);
+
+    if (!product) {
+        return <div>Product not found</div>;
+    }
+
     return (
         <div>
             <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start m-3 '>product details &gt; {product.title}</h1>

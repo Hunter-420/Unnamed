@@ -3,49 +3,7 @@ import { Link } from 'react-router-dom';
 import ShowProducts from '../../components/admin/ShowProducts';
 import Samphoo from '../../images/samphoo.jpg'
 import LeftMenu from '../../components/admin/leftMenu'
-const products = [
-    {
-        src: Samphoo, // replace with actual image path
-        alt: 'Samphoo',
-        title: 'Organic Extra Virgin Coconut Oil',
-        year: '2024',
-        manufacturer: 'KIM THOA',
-        price: '$38.00'
-    },
-    {
-        src: Samphoo, // replace with actual image path
-        alt: 'Samphoo',
-        title: 'Organic Extra Virgin Coconut Oil',
-        year: '2024',
-        manufacturer: 'KIM THOA',
-        price: '$38.00'
-    },
-    {
-        src: Samphoo, // replace with actual image path
-        alt: 'Samphoo',
-        title: 'Organic Extra Virgin Coconut Oil',
-        year: '2024',
-        manufacturer: 'KIM THOA',
-        price: '$38.00'
-    },
-    {
-        src: Samphoo, // replace with actual image path
-        alt: 'Samphoo',
-        title: 'Organic Extra Virgin Coconut Oil',
-        year: '2024',
-        manufacturer: 'KIM THOA',
-        price: '$38.00'
-    },
-    {
-        src: Samphoo, // replace with actual image path
-        alt: 'Another Product',
-        title: 'Another Product Title',
-        year: '2023',
-        manufacturer: 'Another Manufacturer',
-        price: '$45.00'
-    }
-    // add more products as needed
-];
+import Product from '../../data/Products.json'
 
 function adminDashboard(props) {
     return (
@@ -55,10 +13,11 @@ function adminDashboard(props) {
 
             <h1 className='text-start ml-5 font-semibold '>Listed Products</h1>
             <div className='md:flex'>
-                {products.map((product, index) => {
+                {Product.map((product, index) => {
                     return (
                         <ShowProducts
                             index={index}
+                            id={product.id}
                             src={product.src}
                             alt={product.alt}
                             title={product.title}
