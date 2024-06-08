@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ShowProducts from '../../components/admin/ShowProducts';
-import Samphoo from '../../images/samphoo.jpg'
 import LeftMenu from '../../components/admin/leftMenu'
 import Product from '../../data/Products.json'
 

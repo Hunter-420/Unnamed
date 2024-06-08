@@ -27,7 +27,7 @@ function ProductDetails(props) {
                     <h1 className='text-2xl font-bold text-start'>{product.title}</h1>
                     <p className='text-start mt-4'>{product.description}</p>
                     <div className='flex justify-between mt-10'>
-                        <button className='btn-light font-semibold'>{product.price}</button>
+                        <button className='btn-light font-semibold'>Rs. {product.price}</button>
                         <button className='btn-dark font-semibold'>Add to Bag</button>
                     </div>
 

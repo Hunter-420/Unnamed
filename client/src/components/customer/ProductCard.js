@@ -29,7 +29,7 @@ const ProductCard = ({ index,id, src, alt, title, year, manufacturer, price }) =
         <Link to={`/product/${index}`} >
           <div className=" text-start">
             <p className="text-gray-500 text-base">{manufacturer}</p>
-            <p className="font-bold text-gray-700 text-base">{price}</p>
+            <p className="font-bold text-gray-700 text-base">Rs. {price}</p>
           </div>
         </Link >
 

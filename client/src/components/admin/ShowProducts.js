@@ -24,7 +24,7 @@ const ShowProducts = ({ index,id, src, alt, title, year, manufacturer, price }) 
                     <Link to={`/product/${id}`} >
                         <div className=" text-start">
                             <p className="text-gray-500 text-base">{manufacturer}</p>
-                            <p className="font-bold text-gray-700 text-base">{price}</p>
+                            <p className="font-bold text-gray-700 text-base">Rs. {price}</p>
                         </div>
                     </Link >
                     <div className='flex justify-between mt-3'>
