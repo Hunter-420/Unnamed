@@ -9,11 +9,16 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 server.use(express.json());
-server.use(cors());
 app.use(cors({
   origin: 'https://unnamed-two.vercel.app', // Your React app's URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
-server.options('*', cors());
+server.use(cors());
+
+app.use(express.json());
 
 
 // Connect to MongoDB
