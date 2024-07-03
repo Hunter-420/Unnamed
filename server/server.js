@@ -10,7 +10,11 @@ const port = process.env.PORT || 5000;
 
 server.use(express.json());
 server.use(cors());
+app.use(cors({
+  origin: 'https://unnamed-two.vercel.app', // Your React app's URL
+}));
 server.options('*', cors());
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
