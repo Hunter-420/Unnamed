@@ -1,42 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const InputBox = ({ name, type, placeholder, defaultValue, id, icon }) => {
+const InputBox = ({ name, type, placeholder, value, id, icon, onChange }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState(type);
+
+  useEffect(() => {
+    if (name === 'year') {
+      setInputType('text'); // Default type for year
+    }
+    if (name === 'src') {
+      setInputType('text'); // Default type for src (to handle file input separately)
+    }
+  }, [name]);
 
   const handleFocus = () => {
     if (name === 'year') {
       setInputType('date');
     }
-    if (name === 'file') {
-      setInputType('file');
+    if (name === 'src') {
+      setInputType('text'); // Always set to text; handle file input differently
     }
   };
 
   const handleBlur = () => {
-    if (name === 'year' && !document.getElementById(id).value) {
+    if (name === 'year') {
       setInputType('text');
     }
-    if (name === 'file' && !document.getElementById(id).value) {
-      setInputType('file');
-    }
+    // Do not change inputType for src on blur
   };
 
   return (
     <div className="relative w-[100%] mb-4">
-      <input
-        name={name}
-        type={name === "year" || name ==="file" ? inputType : (type === "password" && passwordVisible ? "text" : type)}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        id={id}
-        className="input-box"
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
+      {name === 'src' ? (
+        <input
+          name={name}
+          type="file"
+          placeholder={placeholder}
+          id={id}
+          className="input-box"
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          name={name}
+          type={name === 'year' ? 'date' : (type === 'password' && passwordVisible ? 'text' : inputType)}
+          placeholder={placeholder}
+          value={value} // Use value for controlled inputs
+          id={id}
+          className="input-box"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={onChange}
+        />
+      )}
       <i className={"fi " + icon + " input-icon"}></i>
 
-      {type === "password" && (
+      {type === 'password' && (
         <i
           className={
             "fi fi-rr-eye" +

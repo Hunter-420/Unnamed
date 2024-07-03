@@ -1,10 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+
 const ShowProducts = (props) => {
     const [added, setAdded] = useState(false); // State to track whether the product is added
 
     const handleAddClick = () => {
         added ? setAdded(false) : setAdded(true); // Set added to true when button is clicked
+    };
+
+    const handleDeleteClick = async () => {
+        try {
+            await axios.delete(`http://localhost:5000/api/products/${props.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+                }
+            });
+            toast.success('Product deleted successfully');
+            // Optionally, remove the product from the UI after deletion if using a state in a parent component
+        } catch (error) {
+            console.error('Error deleting product:', error.response ? error.response.data : error.message);
+            toast.error(error.response?.data?.message || 'Failed to delete product');
+        }
     };
 
     return (
@@ -20,26 +38,29 @@ const ShowProducts = (props) => {
                         </div>
                     </div>
                     <Link to={`/product/${props.id}`} >
-                        <div className=" text-start">
+                        <div className="text-start">
                             <p className="text-gray-500 text-base">{props.manufacturer}</p>
                         </div>
-                    </Link >
+                    </Link>
                     {props.type === 'admin' ?
                         <div className='flex justify-between mt-3'>
-                            <Link to={`/update-product/${props.id}`}>  <button className='btn-light font-semibold'><i className="fi fi-tr-file-edit text-[20px] "></i></button></Link>
-                            <button className='btn-light font-semibold'><i className="fi fi-rr-trash text-red text-[20px]"></i></button>
+                            <Link to={`/update-product/${props.id}`}>
+                                <button className='btn-light font-semibold'><i className="fi fi-tr-file-edit text-[20px] "></i></button>
+                            </Link>
+                            <button className='btn-light font-semibold' onClick={handleDeleteClick}>
+                                <i className="fi fi-rr-trash text-red text-[20px]"></i>
+                            </button>
                         </div>
                         :
-                        <div className='flex justify-between '>
-                            <button className='whitespace-nowrap  rounded-full py-3 px-6 text-xl  font-semibold'>Rs. {props.price}</button>
-                            <button className="whitespace-nowrap  rounded-full py-3 px-6 text-xl " onClick={handleAddClick}>
+                        <div className='flex justify-between'>
+                            <button className='whitespace-nowrap rounded-full py-3 px-6 text-xl font-semibold'>Rs. {props.price}</button>
+                            <button className="whitespace-nowrap rounded-full py-3 px-6 text-xl" onClick={handleAddClick}>
                                 <i className={`fi ${added ? 'fi-ss-check-circle' : 'fi-sr-add'} text-[2.5rem] justify-end items-end text-right`}></i>
                             </button>
                         </div>}
                 </div>
-
             </div>
-        </div >
+        </div>
     );
 };
 

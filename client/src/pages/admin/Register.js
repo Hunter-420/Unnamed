@@ -4,16 +4,15 @@ import InputBox from '../../components/common/InputBox';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Auth() {
+function Register() {
     const navigate = useNavigate();
 
-
     const userAuthThroughServer = (serverRoute, formData) => {
-        
         axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}${serverRoute}`, formData)
-        .then(({ data }) => {
-              sessionStorage.setItem('authToken', data.token); // Store the token in session storage
-                navigate('/admin'); // Redirect to admin page on successful authentication
+            .then(({ data }) => {
+                console.log(data);
+                // Redirect to login page on successful registration
+                navigate('/login');
             })
             .catch(({ response }) => {
                 toast.error(response.data.msg);
@@ -22,18 +21,21 @@ function Auth() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const form = e.target;
-        const serverRoute = "/auth";
+        const form = e.target; // Using the event target to get the form element
+        const serverRoute = "/register";
 
+        // form data
         const formData = new FormData(form);
         const formObject = Object.fromEntries(formData.entries());
         console.log(formObject);
 
         const { email, password } = formObject;
 
+        // Regex
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
+        // form validation
         if (!email || !password) {
             return toast.error("Please enter all fields");
         }
@@ -55,7 +57,7 @@ function Auth() {
                 <Toaster />
                 <form id="formElement" className="w-[80%] max-w-[400px]" onSubmit={handleSubmit}>
                     <h1 className="text-4xl font-gelasio capitalize text-center ">
-                        Welcome back,
+                        Register,
                     </h1>
                     <h1 className="text-4xl font-gelasio capitalize text-center mb-16">
                         Aabha Trade
@@ -76,13 +78,15 @@ function Auth() {
                         className="btn-dark center mt-14"
                         type="submit"
                     >
-                        Login
+                        Register
                     </button>
-                   
+                    <Link to="/login" className="mt-4 text-center">
+                        Already have an account? Login here
+                    </Link>
                 </form>
             </section>
         </div>
     );
 }
 
-export default Auth;
+export default Register;
