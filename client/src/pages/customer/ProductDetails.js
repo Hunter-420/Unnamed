@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios'; // Import axios for making HTTP requests
 import Samphoo from '../../images/samphoo.jpg'; // Import placeholder image
+import { ClipLoader } from 'react-spinners';
+
 
 function ProductDetails(props) {
     const { id } = useParams();
@@ -30,7 +32,9 @@ function ProductDetails(props) {
     }, [apiUrl, id]); // Add apiUrl and id to dependencies if they change
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
+        <ClipLoader color="#123abc" loading={loading} size={50} />
+    </div>
     }
 
     if (error) {
