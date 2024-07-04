@@ -8,15 +8,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-server.use(express.json());
-app.use(cors({
-  origin: 'https://unnamed-two.vercel.app', // Your React app's URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
-server.use(cors());
-
+// Use cors with all origins
+app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 
 
@@ -40,3 +34,5 @@ app.use('/api', productRoutes); // Product routes
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+
