@@ -4,11 +4,15 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 import AUProducts from './AUProducts';
+import { useNavigate } from 'react-router-dom';
+
 
 function UpdateProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate(); // Hook to handle redirection
+
 
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -17,10 +21,13 @@ function UpdateProduct() {
             try {
                 const response = await axios.get(`${apiUrl}/products/${id}`);
                 setProduct(response.data);
+                toast.success('Product updated successfully');
+                
             } catch (error) {
                 toast.error('Failed to fetch product data');
             } finally {
                 setLoading(false);
+
             }
         };
 

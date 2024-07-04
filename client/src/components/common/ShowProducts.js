@@ -4,11 +4,11 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 const ShowProducts = (props) => {
-    const [added, setAdded] = useState(false); // State to track whether the product is added
-    const apiUrl = process.env.REACT_APP_SERVER_DOMAIN; // Use environment variable for API URL
+    const [added, setAdded] = useState(false);
+    const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
 
     const handleAddClick = () => {
-        added ? setAdded(false) : setAdded(true); // Toggle added state when button is clicked
+        setAdded(!added);
     };
 
     const handleDeleteClick = async () => {
@@ -19,7 +19,7 @@ const ShowProducts = (props) => {
                 }
             });
             toast.success('Product deleted successfully');
-            // Optionally, remove the product from the UI after deletion if using a state in a parent component
+            props.onDelete(props.id); // Notify parent about deletion
         } catch (error) {
             console.error('Error deleting product:', error.response ? error.response.data : error.message);
             toast.error(error.response?.data?.message || 'Failed to delete product');
@@ -46,7 +46,9 @@ const ShowProducts = (props) => {
                     {props.type === 'admin' ?
                         <div className='flex justify-between mt-3'>
                             <Link to={`/update-product/${props.id}`}>
-                                <button className='btn-light font-semibold'><i className="fi fi-tr-file-edit text-[20px] "></i></button>
+                                <button className='btn-light font-semibold'>
+                                    <i className="fi fi-tr-file-edit text-[20px] "></i>
+                                </button>
                             </Link>
                             <button className='btn-light font-semibold' onClick={handleDeleteClick}>
                                 <i className="fi fi-rr-trash text-red text-[20px]"></i>

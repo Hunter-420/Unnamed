@@ -1,18 +1,16 @@
-// src/pages/admin/adminDashboard.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ShowProducts from '../../components/common/ShowProducts';
 import LeftMenu from '../../components/admin/leftMenu';
 import { ClipLoader } from 'react-spinners';
-
+import { toast } from 'react-hot-toast';
 
 function AdminDashboard(props) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
-
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -31,7 +29,11 @@ function AdminDashboard(props) {
         };
 
         fetchProducts();
-    }, []);
+    }, [apiUrl]);
+
+    const handleProductDelete = (deletedProductId) => {
+        setProducts(products.filter(product => product._id !== deletedProductId));
+    };
 
     return (
         <div>
@@ -46,7 +48,7 @@ function AdminDashboard(props) {
                 {error && <p className="text-red-500">Error: {error}</p>}
                 {!loading && !error && products.map((product) => (
                     <ShowProducts
-                        key={product._id} // Ensure `_id` or a unique identifier is used
+                        key={product._id}
                         id={product._id}
                         src={product.src}
                         alt={product.alt}
@@ -54,6 +56,7 @@ function AdminDashboard(props) {
                         manufacturer={product.manufacturer}
                         price={product.price}
                         type="admin"
+                        onDelete={handleProductDelete} // Pass the delete handler
                     />
                 ))}
             </div>

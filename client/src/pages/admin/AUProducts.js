@@ -92,6 +92,9 @@ function AUProducts(props) {
             if (props.type === 'add-product') {
                 navigate('/admin'); // Redirect to the admin dashboard or another page
             }
+            else if (props.type === 'update-product') {
+                navigate('/admin'); // Redirect after successful update
+            }
         } catch (error) {
             console.error('Error:', error.response ? error.response.data : error.message);
             toast.error(error.response?.data?.message || 'Error occurred');
