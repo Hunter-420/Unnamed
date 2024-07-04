@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://abhatrade-api.vercel.app/api",
   "dependencies": {
     "@flaticon/flaticon-uicons": "^3.2.1",
     "@testing-library/jest-dom": "^5.17.0",
