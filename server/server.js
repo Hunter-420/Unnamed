@@ -10,7 +10,16 @@ const port = process.env.PORT || 5000;
 
 // Use cors with all origins
 app.use(cors());
-app.options('*', cors());
+// Use cors with specific configuration
+const corsOptions = {
+  origin: '*', // Allows all origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Pre-flight requests
 app.use(express.json());
 
 
