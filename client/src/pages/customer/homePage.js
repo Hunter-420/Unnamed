@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 import ShowProducts from '../../components/common/ShowProducts'; // Fix import to match your component
-import Samphoo from '../../images/samphoo.jpg'; // Import image if used elsewhere
-import Product from '../../data/Products.json'; // Import JSON if needed
+import { ClipLoader } from 'react-spinners';
+
 
 function HomePage(props) { // React component names should be capitalized
   const [products, setProducts] = useState([]);
@@ -31,7 +31,9 @@ function HomePage(props) { // React component names should be capitalized
 
   return (
     <div className='md:flex'>
-      {loading && <p>Loading...</p>}
+      {loading &&   <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
+                    <ClipLoader color="#123abc" loading={loading} size={50} />
+                </div>}
       {error && <p className="text-red-500">Error: {error}</p>}
       {!loading && !error && products.map((product) => (
         <ShowProducts

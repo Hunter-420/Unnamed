@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { ClipLoader } from 'react-spinners';
 import AUProducts from './AUProducts';
 
 function UpdateProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -17,6 +19,8 @@ function UpdateProduct() {
                 setProduct(response.data);
             } catch (error) {
                 toast.error('Failed to fetch product data');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -25,7 +29,17 @@ function UpdateProduct() {
 
     return (
         <div>
-            {product ? <AUProducts product={product} type="update-product" /> : <p>Loading...</p>}
+            {/* Display AUProducts at the top */}
+            {!loading && product && (
+                <AUProducts product={product} type="update-product" />
+            )}
+            
+            {/* Centered spinner */}
+            {loading && (
+                <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
+                    <ClipLoader color="#123abc" loading={loading} size={50} />
+                </div>
+            )}
         </div>
     );
 }

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ShowProducts from '../../components/common/ShowProducts';
 import LeftMenu from '../../components/admin/leftMenu';
+import { ClipLoader } from 'react-spinners';
+
 
 function AdminDashboard(props) {
     const [products, setProducts] = useState([]);
@@ -16,7 +18,7 @@ function AdminDashboard(props) {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/products`, {
-                                    headers: {
+                    headers: {
                         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
                     }
                 });
@@ -38,7 +40,9 @@ function AdminDashboard(props) {
 
             <h1 className='text-start ml-5 font-semibold'>Listed Products</h1>
             <div className='md:flex flex-wrap'>
-                {loading && <p>Loading...</p>}
+                {loading && <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
+                    <ClipLoader color="#123abc" loading={loading} size={50} />
+                </div>}
                 {error && <p className="text-red-500">Error: {error}</p>}
                 {!loading && !error && products.map((product) => (
                     <ShowProducts
