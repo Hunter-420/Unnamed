@@ -5,14 +5,15 @@ import { toast } from 'react-hot-toast';
 
 const ShowProducts = (props) => {
     const [added, setAdded] = useState(false); // State to track whether the product is added
+    const apiUrl = process.env.REACT_APP_SERVER_DOMAIN; // Use environment variable for API URL
 
     const handleAddClick = () => {
-        added ? setAdded(false) : setAdded(true); // Set added to true when button is clicked
+        added ? setAdded(false) : setAdded(true); // Toggle added state when button is clicked
     };
 
     const handleDeleteClick = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/products/${props.id}`, {
+            await axios.delete(`${apiUrl}/products/${props.id}`, {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
                 }

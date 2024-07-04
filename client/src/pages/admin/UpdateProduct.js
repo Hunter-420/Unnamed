@@ -8,10 +8,12 @@ function UpdateProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
 
+    const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+                const response = await axios.get(`${apiUrl}/products/${id}`);
                 setProduct(response.data);
             } catch (error) {
                 toast.error('Failed to fetch product data');
@@ -19,7 +21,7 @@ function UpdateProduct() {
         };
 
         fetchProduct();
-    }, [id]);
+    }, [id, apiUrl]);
 
     return (
         <div>
