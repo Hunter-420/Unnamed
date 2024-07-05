@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InputBox from '../../components/common/InputBox';
 import { toast } from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for potential redirection
+import { Link, useNavigate } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
 
 function AUProducts(props) {
     const [product, setProduct] = useState({
@@ -14,11 +16,10 @@ function AUProducts(props) {
         src: ''
     });
 
-    const navigate = useNavigate(); // Initialize navigate for potential redirection
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (props.type === 'update-product' && props.product) {
-            // Populate form with existing product data for update
             setProduct({
                 title: props.product.title || '',
                 description: props.product.description || '',
@@ -28,7 +29,6 @@ function AUProducts(props) {
                 src: props.product.src || ''
             });
         } else if (props.type === 'add-product') {
-            // Initialize form with empty values for adding new product
             setProduct({
                 title: '',
                 description: '',
@@ -47,16 +47,34 @@ function AUProducts(props) {
         });
     };
 
+    const handleFileUpload = async (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            const storageRef = firebase.storage().ref();
+            const fileRef = storageRef.child(selectedFile.name);
+            try {
+                await fileRef.put(selectedFile);
+                const url = await fileRef.getDownloadURL();
+                setProduct({
+                    ...product,
+                    src: url
+                });
+                toast.success('File uploaded successfully');
+            } catch (error) {
+                console.error('Error:', error.message);
+                toast.error('Failed to upload file');
+            }
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
         const endpoint = props.type === 'update-product'
-        ? `${apiUrl}/products/${props.product._id}`
-        : `${apiUrl}/products`;
+            ? `${apiUrl}/products/${props.product._id}`
+            : `${apiUrl}/products`;
         const method = props.type === 'update-product' ? 'put' : 'post';
-
-        console.log('Product:', product);
 
         try {
             const response = await axios({
@@ -65,10 +83,10 @@ function AUProducts(props) {
                 data: {
                     title: product.title.trim(),
                     description: product.description.trim(),
-                    price: parseFloat(product.price) || 0, // Ensure price is a number
+                    price: parseFloat(product.price) || 0,
                     manufacturer: product.manufacturer.trim(),
-                    year: product.year.trim() || '', // Optional
-                    src: product.src.trim() || '' // Optional
+                    year: product.year.trim() || '',
+                    src: product.src.trim() || ''
                 },
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
@@ -78,7 +96,6 @@ function AUProducts(props) {
 
             toast.success(response.data.message);
 
-            // Clear form fields
             setProduct({
                 title: '',
                 description: '',
@@ -88,13 +105,7 @@ function AUProducts(props) {
                 src: ''
             });
 
-            // Optional: Redirect after successful submission
-            if (props.type === 'add-product') {
-                navigate('/admin'); // Redirect to the admin dashboard or another page
-            }
-            else if (props.type === 'update-product') {
-                navigate('/admin'); // Redirect after successful update
-            }
+            navigate('/admin');
         } catch (error) {
             console.error('Error:', error.response ? error.response.data : error.message);
             toast.error(error.response?.data?.message || 'Error occurred');
@@ -156,11 +167,10 @@ function AUProducts(props) {
                 />
                 <InputBox
                     name="src"
-                    type="text"
+                    type="file"
                     placeholder="Product Image"
                     icon="fi-tr-add-image"
-                    value={product.src}
-                    onChange={handleChange}
+                    onChange={handleFileUpload}
                 />
                 <button className='btn-dark max-sm:w-full' type="submit">
                     {props.type === "update-product" ? "Update Product" : "Add Product"}
