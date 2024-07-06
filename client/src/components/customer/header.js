@@ -9,6 +9,8 @@ const Navbar = () => {
   const [products, setProducts] = useState([]);
   const inputRef = useRef();
   const searchBoxRef = useRef();
+  const apiUrl = process.env.REACT_APP_API_URL;
+
 
   useEffect(() => {
     if (searchBoxVisibility) {
@@ -27,7 +29,7 @@ const Navbar = () => {
   const handleSearch = async () => {
     if (searchQuery.trim() === "") return;
     try {
-      const response = await axios.get('http://localhost:5000/api/products/search', {
+      const response = await axios.get(`${apiUrl}/products/search`, {
         params: { query: searchQuery }
       });
       setProducts(response.data);
