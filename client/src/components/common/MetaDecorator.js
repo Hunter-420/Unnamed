@@ -5,7 +5,7 @@ function MetaDecorator({ title = "Default Title", description = "Default Descrip
     return (
         <Helmet>
 
-            <meta property="og:image" content={src} />
+            <meta property="og:image:secure_url" content={src} />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:url" content={url} />
