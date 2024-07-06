@@ -66,13 +66,24 @@ exports.updateProduct = async (req, res) => {
 
 // Delete a product by ID
 exports.deleteProduct = async (req, res) => {
-    try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        if (!product) {
-            return res.status(404).json({ success: false, message: 'Product not found' });
-        }
-        res.status(200).json({ success: true, message: 'Product deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
     }
+    res.status(200).json({ success: true, message: 'Product deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Search products by query
+exports.searchProducts = async (req, res) => {
+  const query = req.query.query;
+  try {
+    const products = await Product.find({ title: { $regex: query, $options: 'i' } });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

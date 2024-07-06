@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 
+// Product search
+router.get('/products/search', productController.searchProducts);
+
 // Get all products
 router.get('/products', productController.getAllProducts);
 
