@@ -57,7 +57,7 @@ function ProductDetails(props) {
                 url={window.location.href} // Use current URL
             />
             <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start m-3 '>
-                <Link to="/"> Product details </Link>&gt; {product.title}
+                <Link to="/"><span className="font-semibold text-xl">Product Details</span></Link>&gt; {product.title}
             </h1>
             <div className="md:grid grid-cols-2 max-sm:m-10 ">
                 <div>

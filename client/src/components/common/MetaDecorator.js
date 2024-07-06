@@ -10,7 +10,10 @@ function MetaDecorator({ title = "Default Title", description = "Default Descrip
             <meta property="og:image" content={src} />
             <meta property="og:url" content={url} />
             <meta name='facebook:card' content='summary_large_image' />
+            <meta name='instagram:card' content='summary_large_image' />
             <meta name='facebook:image:alt' content={title} />
+            <meta name='instagram:image:alt' content={title} />
+
         </Helmet>
     );
 }

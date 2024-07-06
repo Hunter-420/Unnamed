@@ -29,7 +29,7 @@ const ShowProducts = (props) => {
     };
 
     return (
-        <div className={`max-sm:mt-3 max-w-sm md:max-w-sm rounded overflow-hidden shadow-lg bg-white p-3 ${added ? 'bg-green-200' : ''}`}>
+        <div className={`max-sm:mt-3 w-sm md:max-w-sm rounded overflow-hidden shadow-lg bg-white p-3 ${added ? 'bg-green-200' : ''}`}>
             <div className="px-3 py-4 flex">
                 <Link to={`/product/${props.id}`} >
                     <img className="w-22 h-30" src={props.src} alt={props.alt} />
