@@ -4,7 +4,7 @@ import axios from 'axios'; // Import axios for making HTTP requests
 import Samphoo from '../../images/samphoo.jpg'; // Import placeholder image
 import { ClipLoader } from 'react-spinners';
 import NoInternetCard from '../../components/common/NoInternet';
-
+import MetaDecorator from '../../components/common/MetaDecorator'; // Import MetaDecorator
 
 function ProductDetails(props) {
     const { id } = useParams();
@@ -33,9 +33,11 @@ function ProductDetails(props) {
     }, [apiUrl, id]); // Add apiUrl and id to dependencies if they change
 
     if (loading) {
-        return <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
-        <ClipLoader color="#123abc" loading={loading} size={50} />
-    </div>
+        return (
+            <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
+                <ClipLoader color="#123abc" loading={loading} size={50} />
+            </div>
+        );
     }
 
     if (error) {
@@ -48,7 +50,15 @@ function ProductDetails(props) {
 
     return (
         <div>
-            <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start m-3 '><Link to={"/"} > Product details </Link>&gt; {product.title}</h1>
+            <MetaDecorator
+                title={product.title}
+                description={product.description}
+                src={product.src || Samphoo}
+                url={window.location.href} // Use current URL
+            />
+            <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start m-3 '>
+                <Link to="/"> Product details </Link>&gt; {product.title}
+            </h1>
             <div className="md:grid grid-cols-2 max-sm:m-10 ">
                 <div>
                     <img className="w-fit" src={product.src || Samphoo} alt="product" /> {/* Use product image if available, otherwise use placeholder */}
