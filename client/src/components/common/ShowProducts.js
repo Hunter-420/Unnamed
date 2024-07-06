@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 
 const ShowProducts = (props) => {
     const [added, setAdded] = useState(false);
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
+    const shareUrl = `${apiUrl}/products/${props.id}`;
 
     const handleAddClick = () => {
         setAdded(!added);
@@ -58,8 +60,12 @@ const ShowProducts = (props) => {
                         <div className='flex justify-between'>
                             <button className='whitespace-nowrap rounded-full py-3 px-6 text-xl font-semibold'>Rs. {props.price}</button>
                             <button className="whitespace-nowrap rounded-full py-3 px-6 text-xl" onClick={handleAddClick}>
-                                <i className={`fi ${added ? 'fi-ss-check-circle' : 'fi-sr-add'} text-[2.5rem] justify-end items-end text-right`}></i>
-                            </button>
+                            <FacebookShareButton
+          url={shareUrl}
+          className="Demo__some-network__share-button"
+        >
+          <FacebookIcon size={32} round />
+        </FacebookShareButton>                            </button>
                         </div>}
                 </div>
             </div>

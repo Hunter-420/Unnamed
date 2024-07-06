@@ -51,14 +51,14 @@ function ProductDetails(props) {
             <h1 className='text-xl font-[500] md:font-semibold text-dark-grey text-start m-3 '><Link to={"/"} > Product details </Link>&gt; {product.title}</h1>
             <div className="md:grid grid-cols-2 max-sm:m-10 ">
                 <div>
-                    <img className="w-fit" src={product.image || Samphoo} alt="product" /> {/* Use product image if available, otherwise use placeholder */}
+                    <img className="w-fit" src={product.src || Samphoo} alt="product" /> {/* Use product image if available, otherwise use placeholder */}
                 </div>
                 <div className='details md:m-10 max-sm:mt-5'>
                     <h1 className='text-2xl font-bold text-start'>{product.title}</h1>
                     <p className='text-start mt-4'>{product.description}</p>
                     <div className='flex justify-between mt-10'>
                         <button className='btn-light font-semibold'>Rs. {product.price}</button>
-                        <button className='btn-dark font-semibold'>{product.avaibility}</button>
+                        <button className='btn-dark font-semibold'>Product {product.avaibility}</button>
                     </div>
                 </div>
             </div>
