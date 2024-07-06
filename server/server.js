@@ -16,9 +16,17 @@ app.use(cors());
 app.options('*', cors());
 
 
-app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
+//app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
 
+app.use(prerender.set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
 
+// Serve static files
+app.use(express.static('build'));
+
+// All other requests serve index.html
+app.get('*', (req, res) => {
+    res.sendFile(__dirname + '/build/index.html');
+});
 
 
 // Connect to MongoDB
