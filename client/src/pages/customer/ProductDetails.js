@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios'; // Import axios for making HTTP requests
 import Samphoo from '../../images/samphoo.jpg'; // Import placeholder image
 import { ClipLoader } from 'react-spinners';
+import NoInternetCard from '../../components/common/NoInternet';
 
 
 function ProductDetails(props) {
@@ -38,7 +39,7 @@ function ProductDetails(props) {
     }
 
     if (error) {
-        return <p className="text-red-500">Error: {error}</p>;
+        return <NoInternetCard message={error} />;
     }
 
     if (!product) {

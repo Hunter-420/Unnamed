@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ShowProducts from '../../components/common/ShowProducts';
-import LeftMenu from '../../components/admin/leftMenu';
 import { ClipLoader } from 'react-spinners';
+import NoInternetCard from '../../components/common/NoInternet'; // Import the NoInternetCard component
 import { toast } from 'react-hot-toast';
 
 function AdminDashboard(props) {
@@ -37,15 +37,13 @@ function AdminDashboard(props) {
 
     return (
         <div>
-            <h1 className='mt-3 text-xl'>Welcome back, <span className='text-purple text-lg font-semibold'>Aabha Trade</span></h1>
-            <LeftMenu />
 
-            <h1 className='text-start ml-5 font-semibold'>Listed Products</h1>
+            <h1 className='text-start ml-5 font-semibold mt-5'>Listed Products</h1>
             <div className='md:flex flex-wrap'>
                 {loading && <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
                     <ClipLoader color="#123abc" loading={loading} size={50} />
                 </div>}
-                {error && <p className="text-red-500">Error: {error}</p>}
+                {error && <NoInternetCard message={error} />}
                 {!loading && !error && products.map((product) => (
                     <ShowProducts
                         key={product._id}

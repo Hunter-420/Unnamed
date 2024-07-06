@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import ShowProducts from "./../common/ShowProducts"; // Adjust the import path according to your project structure
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
@@ -102,7 +102,11 @@ const Navbar = () => {
           </Link>
         </div>
       </nav>
+          {props.type === "admin" && (
+                       <h1 className='mt-3 text-xl'>Welcome back, <span className='text-purple text-lg font-semibold'>Aabha Trade</span></h1>
+                      )}
 
+        
       {products.length > 0 && (
         <div className="product-list">
           {products.map((product) => (
@@ -114,7 +118,7 @@ const Navbar = () => {
               title={product.title}
               manufacturer={product.manufacturer}
               price={product.price}
-              type="customer"
+              type={props.type} 
             />
           ))}
         </div>

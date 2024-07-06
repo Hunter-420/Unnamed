@@ -13,29 +13,34 @@ function AUProducts(props) {
         price: '',
         manufacturer: '',
         year: '',
-        src: ''
+        src: '',
+        avaibility: 'available' // Default to 'available' when adding a new product
     });
 
     const navigate = useNavigate();
 
     useEffect(() => {
         if (props.type === 'update-product' && props.product) {
+            // Set state based on existing product data
             setProduct({
                 title: props.product.title || '',
                 description: props.product.description || '',
                 price: props.product.price || '',
                 manufacturer: props.product.manufacturer || '',
                 year: props.product.year || '',
-                src: props.product.src || ''
+                src: props.product.src || '',
+                avaibility: props.product.avaibility || 'available' // Use value from backend or default to 'available'
             });
         } else if (props.type === 'add-product') {
+            // Reset state to default values for adding a new product
             setProduct({
                 title: '',
                 description: '',
                 price: '',
                 manufacturer: '',
                 year: '',
-                src: ''
+                src: '',
+                avaibility: 'available' // Default to 'available' when adding a new product
             });
         }
     }, [props.product, props.type]);
@@ -86,7 +91,8 @@ function AUProducts(props) {
                     price: parseFloat(product.price) || 0,
                     manufacturer: product.manufacturer.trim(),
                     year: product.year.trim() || '',
-                    src: product.src.trim() || ''
+                    src: product.src.trim() || '',
+                    avaibility: product.avaibility.trim() || 'available' // Ensure availability is set
                 },
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
@@ -102,7 +108,8 @@ function AUProducts(props) {
                 price: '',
                 manufacturer: '',
                 year: '',
-                src: ''
+                src: '',
+                avaibility: 'available' // Reset to default after submission
             });
 
             navigate('/admin');
@@ -166,10 +173,23 @@ function AUProducts(props) {
                     onChange={handleChange}
                 />
                 <InputBox
+                    name="avaibility"
+                    type="dropdown" // Set type to dropdown
+                    placeholder="Product Availability"
+                    icon="fi-rr-building"
+                    value={product.avaibility}
+                    onChange={handleChange}
+                    options={[
+                        { value: 'available', label: 'Available' },
+                        { value: 'unavailable', label: 'Unavailable' }
+                    ]}
+                />
+                <InputBox
                     name="src"
                     type="file"
                     placeholder="Product Image"
                     icon="fi-tr-add-image"
+                    value={product.src}
                     onChange={handleFileUpload}
                 />
                 <button className='btn-dark max-sm:w-full' type="submit">

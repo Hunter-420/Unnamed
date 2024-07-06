@@ -19,12 +19,17 @@ const productSchema = new mongoose.Schema({
     },
     year: {
         type: String,
-        required: false // Optional field
+        required: true // Optional field
     },
     src: {
         type: String,
-        required: false // Optional field
-    }
+        required: true // Optional field
+    },
+    avaibility: {
+        type: String,
+        enum: ['available', 'unavailable'], // Ensure enum values match dropdown options
+        default: 'available' // Set default value if needed
+      }
 });
 
 module.exports = mongoose.model('Product', productSchema);

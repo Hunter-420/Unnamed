@@ -32,6 +32,7 @@ exports.createProduct = async (req, res) => {
     manufacturer: req.body.manufacturer,
     year: req.body.year,
     src: req.body.src,
+    avaibility: req.body.avaibility
   });
 
   try {
@@ -56,6 +57,7 @@ exports.updateProduct = async (req, res) => {
     product.manufacturer = req.body.manufacturer || product.manufacturer;
     product.year = req.body.year || product.year;
     product.src = req.body.src || product.src;
+    product.avaibility = req.body.avaibility || product.avaibility;
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
@@ -81,7 +83,7 @@ exports.deleteProduct = async (req, res) => {
 exports.searchProducts = async (req, res) => {
   const query = req.query.query;
   try {
-    const products = await Product.find({ title: { $regex: query, $options: 'i' } });
+    const products = await Product.find({ title: { $regex: query, $options: 'i' }, description: { $regex: query, $options: 'i' }});
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });

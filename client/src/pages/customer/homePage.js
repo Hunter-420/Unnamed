@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 import ShowProducts from '../../components/common/ShowProducts'; // Fix import to match your component
+import NoInternetCard from '../../components/common/NoInternet';
 import { ClipLoader } from 'react-spinners';
 
 
@@ -34,7 +35,7 @@ function HomePage(props) { // React component names should be capitalized
       {loading &&   <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
                     <ClipLoader color="#123abc" loading={loading} size={50} />
                 </div>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      {error && <NoInternetCard message={error} />}
       {!loading && !error && products.map((product) => (
         <ShowProducts
           key={product._id} // Ensure `_id` or a unique identifier is used
