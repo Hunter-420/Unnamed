@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ShowProducts from "./../common/ShowProducts"; // Adjust the import path according to your project structure
 
@@ -9,8 +9,9 @@ const Navbar = (props) => {
   const [products, setProducts] = useState([]);
   const inputRef = useRef();
   const searchBoxRef = useRef();
+  const navigate = useNavigate();
+  const authToken = sessionStorage.getItem('authToken');
   const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
-
 
   useEffect(() => {
     if (searchBoxVisibility) {
@@ -96,17 +97,19 @@ const Navbar = (props) => {
           >
             <i className="fi fi-rr-search"></i>
           </button>
-
-          <Link to="/auth" className="py-3 px-9 md:block">
-            <i className="fi fi-br-shopping-bag text-[20px]"></i>
-          </Link>
+          {props.type === "admin" ? <Link to="/" className="py-3 px-9 md:block">
+            <i className="fi fi-ts-target-audience text-[20px]"></i>
+          </Link> :
+            <Link to={authToken ? "/admin" : "/auth"} className="py-3 px-9 md:block">
+              <i className="fi fi-ts-admin-alt text-[20px]"></i>
+            </Link>
+          }
         </div>
       </nav>
-          {props.type === "admin" && (
-                       <h1 className='mt-3 text-xl'>Welcome back, <span className='text-purple text-lg font-semibold'>Aabha Trade</span></h1>
-                      )}
+      {props.type === "admin" && (
+        <h1 className='mt-3 text-xl'>Welcome back, <span className='text-purple text-lg font-semibold'>Aabha Trade</span></h1>
+      )}
 
-        
       {products.length > 0 && (
         <div className="product-list">
           {products.map((product) => (
@@ -118,7 +121,7 @@ const Navbar = (props) => {
               title={product.title}
               manufacturer={product.manufacturer}
               price={product.price}
-              type={props.type} 
+              type={props.type}
             />
           ))}
         </div>
