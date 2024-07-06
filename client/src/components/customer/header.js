@@ -9,7 +9,7 @@ const Navbar = () => {
   const [products, setProducts] = useState([]);
   const inputRef = useRef();
   const searchBoxRef = useRef();
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
 
 
   useEffect(() => {
