@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const prerender = require('prerender-node');
+
 
 dotenv.config();
 
@@ -12,6 +14,11 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 app.options('*', cors());
+
+
+app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
+
+
 
 
 // Connect to MongoDB
