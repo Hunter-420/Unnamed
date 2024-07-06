@@ -7,7 +7,7 @@ import { FacebookShareButton, FacebookIcon } from 'react-share';
 const ShowProducts = (props) => {
     const [added, setAdded] = useState(false);
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
-    const shareUrl = `${apiUrl}/products/${props.id}`;
+    const shareUrl = `https://www.abhatrade.vercel.app/api/products/${props.id}`;
 
     const handleAddClick = () => {
         setAdded(!added);
@@ -35,11 +35,13 @@ const ShowProducts = (props) => {
                     <img className="w-22 h-30" src={props.src} alt={props.alt} />
                 </Link>
                 <div className='ml-3'>
+                <Link to={`/product/${props.id}`} >
                     <div className='flex mt-2 '>
                         <div className='flex'>
                             <div className="font-bold text-lg mb-0 text-start">{props.title}</div>
                         </div>
                     </div>
+                    </Link>
                     <Link to={`/product/${props.id}`} >
                         <div className="text-start">
                             <p className="text-gray-500 text-base">{props.manufacturer}</p>
