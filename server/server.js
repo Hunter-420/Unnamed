@@ -16,7 +16,7 @@ app.use(cors());
 app.options('*', cors());
 
 
-app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
+app.use(require('prerender-node').set('prerenderToken', GrvbuT2WCoSbboCxuvTJ));
 
 
 
