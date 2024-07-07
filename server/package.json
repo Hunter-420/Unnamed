@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.4",
     "prerender-node": "^3.8.0",
+    "react-helmet": "^6.1.0",
     "vercel": "^34.3.0"
   }
 }
