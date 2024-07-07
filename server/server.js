@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const prerender = require('prerender-node');
 
 
 dotenv.config();
@@ -15,8 +14,8 @@ app.use(express.json());
 app.use(cors());
 app.options('*', cors());
 
-prerender.set('prerenderToken',  'GrvbuT2WCoSbboCxuvTJ');
-app.use(prerender);
+app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
+
 
 
 
