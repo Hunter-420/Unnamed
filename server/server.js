@@ -15,8 +15,9 @@ app.use(express.json());
 app.use(cors());
 app.options('*', cors());
 
+prerender.set('prerenderToken',  'GrvbuT2WCoSbboCxuvTJ');
+app.use(prerender);
 
-app.use(require('prerender-node').set('prerenderToken', 'GrvbuT2WCoSbboCxuvTJ'));
 
 
 
