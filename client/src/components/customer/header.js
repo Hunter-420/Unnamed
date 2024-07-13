@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import ShowProducts from "./../common/ShowProducts"; // Adjust the import path according to your project structure
 
@@ -9,9 +9,8 @@ const Navbar = (props) => {
   const [products, setProducts] = useState([]);
   const inputRef = useRef();
   const searchBoxRef = useRef();
-  const navigate = useNavigate();
-  const authToken = sessionStorage.getItem('authToken');
   const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
+  const authToken = sessionStorage.getItem('authToken'); // Ensure authToken is defined here
 
   useEffect(() => {
     if (searchBoxVisibility) {
@@ -39,11 +38,16 @@ const Navbar = (props) => {
     }
   };
 
+  // Use useCallback to ensure handleSearch is not recreated on every render
+  const handleSearchDebounced = useCallback(debounce(handleSearch, 300), [searchQuery]);
+
   useEffect(() => {
     if (searchQuery) {
-      handleSearch();
+      handleSearchDebounced();
+    } else {
+      setProducts([]);
     }
-  }, [searchQuery]);
+  }, [searchQuery, handleSearchDebounced]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -131,3 +135,16 @@ const Navbar = (props) => {
 };
 
 export default Navbar;
+
+// Utility function for debouncing
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
