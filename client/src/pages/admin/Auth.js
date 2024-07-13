@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import InputBox from '../../components/common/InputBox';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Auth() {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const token = Cookies.get('authToken');
+        if (token) {
+            sessionStorage.setItem('authToken', token);
+            navigate('/admin');
+        }
+    }, [navigate]);
 
-    const userAuthThroughServer = (serverRoute, formData) => {
-        
-        axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}${serverRoute}`, formData)
-        .then(({ data }) => {
-              sessionStorage.setItem('authToken', data.token); // Store the token in session storage
+    const userAuthThroughServer = async (serverRoute, formData) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}${serverRoute}`, formData);
+            const { data } = response;
+            console.log('API Response:', data); // Debugging log
+
+            if (data.token) {
+                Cookies.set('authToken', data.token, { expires: 7 }); // Store the token in a cookie for 7 days
+                sessionStorage.setItem('authToken', data.token); // Store the token in session storage
+                console.log('Token stored in session storage:', sessionStorage.getItem('authToken')); // Debugging log
                 navigate('/admin'); // Redirect to admin page on successful authentication
-            })
-            .catch(({ response }) => {
-                toast.error(response.data.msg);
-            });
+            } else {
+                toast.error("Authentication failed. Please try again.");
+            }
+        } catch (error) {
+            console.error('Error:', error); // Debugging log
+            toast.error(error.response?.data?.msg || "An error occurred. Please try again.");
+        }
     };
 
     const handleSubmit = (e) => {
@@ -27,7 +43,7 @@ function Auth() {
 
         const formData = new FormData(form);
         const formObject = Object.fromEntries(formData.entries());
-        console.log(formObject);
+        console.log('Form Data:', formObject); // Debugging log
 
         const { email, password } = formObject;
 
@@ -78,7 +94,6 @@ function Auth() {
                     >
                         Login
                     </button>
-                   
                 </form>
             </section>
         </div>
