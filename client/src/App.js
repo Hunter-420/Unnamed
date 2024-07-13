@@ -11,6 +11,7 @@ import Register from './pages/admin/Register';
 import AddProducts from './pages/admin/AddProducts';
 import UpdateProduct from './pages/admin/UpdateProduct';
 
+
 const isAuthenticated = () => {
   return !!sessionStorage.getItem('authToken');
 };
@@ -28,6 +29,7 @@ function App() {
         {/* Authentication Routes */}
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
+
 
         {/* Admin Routes */}
         <Route path="/admin" element={isAuthenticated() ? <Admin /> : <Navigate to="/auth" />}>

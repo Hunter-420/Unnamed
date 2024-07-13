@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
+import { hydrateRoot, createRoot } from 'react-dom/client';
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -19,12 +21,27 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+
+
+
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+  if (rootElement.hasChildNodes()) {
+    hydrateRoot(rootElement,<BrowserRouter> <App /></BrowserRouter>);
+  } else {
+    const root = createRoot(rootElement);
+    root.render(<BrowserRouter> <App /></BrowserRouter>);
+  }
+}
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <BrowserRouter>
+//     <App />
+//   </BrowserRouter>
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

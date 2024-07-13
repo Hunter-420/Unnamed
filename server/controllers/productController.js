@@ -82,10 +82,24 @@ exports.deleteProduct = async (req, res) => {
 // Search products by query
 exports.searchProducts = async (req, res) => {
   const query = req.query.query;
+  console.log('Search query:', query); // Log the search query
+
   try {
-    const products = await Product.find({ title: { $regex: query, $options: 'i' }, description: { $regex: query, $options: 'i' }});
+    const products = await Product.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } }
+      ]
+    });
+    
+    console.log('Products found:', products.length); // Log the number of products found
+    console.log(products); // Log the products found
+    
     res.json(products);
   } catch (error) {
+    console.error('Error searching products:', error); // Log the error
     res.status(500).json({ message: error.message });
   }
 };
+
+

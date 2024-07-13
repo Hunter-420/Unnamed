@@ -2,21 +2,23 @@ import React from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import InputBox from '../../components/common/InputBox';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Auth() {
     const navigate = useNavigate();
 
-
     const userAuthThroughServer = (serverRoute, formData) => {
-        
         axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}${serverRoute}`, formData)
-        .then(({ data }) => {
-              sessionStorage.setItem('authToken', data.token); // Store the token in session storage
-                navigate('/admin'); // Redirect to admin page on successful authentication
+            .then(({ data }) => {
+                if (data.token) {
+                    sessionStorage.setItem('authToken', data.token); // Store the token in session storage
+                    navigate('/admin'); // Redirect to admin page on successful authentication
+                } else {
+                    toast.error("Authentication failed. Please try again.");
+                }
             })
-            .catch(({ response }) => {
-                toast.error(response.data.msg);
+            .catch((error) => {
+                toast.error(error.response?.data?.msg || "An error occurred. Please try again.");
             });
     };
 
@@ -78,7 +80,6 @@ function Auth() {
                     >
                         Login
                     </button>
-                   
                 </form>
             </section>
         </div>
