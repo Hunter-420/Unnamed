@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
+import './ShowProducts.css';
 
 const ShowProducts = (props) => {
     const [added, setAdded] = useState(false);
@@ -29,25 +30,50 @@ const ShowProducts = (props) => {
     };
 
     return (
-        <div className={`max-sm:mt-3 w-sm md:max-w-sm rounded overflow-hidden shadow-lg bg-white p-3 ${added ? 'bg-green-200' : ''}`}>
-            <div className="px-3 py-4 flex">
-                <Link to={`/product/${props.id}`} >
-                    <img className="w-22 h-30" src={props.src} alt={props.alt} />
-                </Link>
-                <div className='ml-3'>
-                <Link to={`/product/${props.id}`} >
-                    <div className='flex mt-2 '>
-                        <div className='flex'>
-                            <div className="font-bold text-lg mb-0 text-start">{props.title}</div>
-                        </div>
-                    </div>
-                    </Link>
-                    <Link to={`/product/${props.id}`} >
-                        <div className="text-start">
-                            <p className="text-gray-500 text-base">{props.manufacturer}</p>
-                        </div>
-                    </Link>
-                    {props.type === 'admin' ?
+        <>
+  <div className="contenedorCards">
+      <div className="card">
+        <div className="wrapper">
+          <div className="colorProd"></div>
+          <Link to={`/product/${props.id}`} >
+
+          <div
+            className="imgProd"
+            style={{
+              backgroundImage: 'url(' + props.src + ')',
+            }}
+          ></div>
+                          </Link>
+
+          <div className="infoProd">
+            <p className="nombreProd">{props.title}</p>
+            <p className="extraInfo">{props.manufacturer}</p>
+            <div className="actions">
+              <div className="preciosGrupo">
+                <p className="precio precioProd">{props.price}</p>
+              </div>
+              <div className="icono action aFavs">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                  <path d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"></path>
+                </svg>
+              </div>
+              <div className="icono action alCarrito">
+                <svg className="inCart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                  <title>Quitar del carrito</title>
+                  <path d="M30 22H12M2 6h6l10 40h32l3.2-9.7"></path>
+                  <circle cx="20" cy="54" r="4"></circle>
+                  <circle cx="46" cy="54" r="4"></circle>
+                  <circle cx="46" cy="22" r="16"></circle>
+                  <path d="M53 18l-8 9-5-5"></path>
+                </svg>
+                <svg className="outCart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                  <title>Agregar al carrito</title>
+                  <path d="M2 6h10l10 40h32l8-24H16"></path>
+                  <circle cx="23" cy="54" r="4"></circle>
+                  <circle cx="49" cy="54" r="4"></circle>
+                </svg>
+              </div>
+              {props.type === 'admin' ?
                         <div className='flex justify-between mt-3'>
                             <Link to={`/update-product/${props.id}`}>
                                 <button className='btn-light font-semibold'>
@@ -60,18 +86,16 @@ const ShowProducts = (props) => {
                         </div>
                         :
                         <div className='flex justify-between'>
-                            <button className='whitespace-nowrap rounded-full py-3 px-6 text-xl font-semibold'>Rs. {props.price}</button>
-                            <button className="whitespace-nowrap rounded-full py-3 px-6 text-xl" onClick={handleAddClick}>
-                            <FacebookShareButton
-          url={shareUrl}
-          className="Demo__some-network__share-button"
-        >
-          <FacebookIcon size={32} round />
-        </FacebookShareButton>                            </button>
+                            
                         </div>}
-                </div>
             </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+        
+        </>
     );
 };
 

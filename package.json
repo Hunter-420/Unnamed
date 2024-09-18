@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "react-share": "^5.1.0"
+    "react-share": "^5.1.0",
+    "sass": "^1.79.1",
+    "scss": "^0.2.4"
   }
 }
