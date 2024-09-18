@@ -79,27 +79,44 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+
 // Search products by query
 exports.searchProducts = async (req, res) => {
   const query = req.query.query;
-  console.log('Search query:', query); // Log the search query
-
   try {
-    const products = await Product.find({
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+
+    // Tokenize and trim the query
+    const queryWords = query.split(' ').map(word => word.trim()).filter(word => word !== '');
+
+    // Create a regex pattern for each word to match in title or description
+    const regexPatterns = queryWords.map(word => new RegExp(word, 'i'));
+
+    // Build the search criteria
+    const searchCriteria = {
       $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { description: { $regex: query, $options: 'i' } }
+        {
+          $or: regexPatterns.map(regex => ({ title: { $regex: regex } }))
+        },
+        {
+          $or: regexPatterns.map(regex => ({ description: { $regex: regex } }))
+        }
       ]
-    });
-    
-    console.log('Products found:', products.length); // Log the number of products found
-    console.log(products); // Log the products found
-    
+    };
+
+    // Log the search criteria for debugging
+    console.log('Search Criteria:', JSON.stringify(searchCriteria, null, 2));
+
+    const products = await Product.find(searchCriteria);
     res.json(products);
   } catch (error) {
     console.error('Error searching products:', error); // Log the error
     res.status(500).json({ message: error.message });
   }
 };
+
+
 
 
