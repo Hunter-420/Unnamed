@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ShowProducts from '../../components/common/ShowProducts';
 import { ClipLoader } from 'react-spinners';
 import NoInternetCard from '../../components/common/NoInternet'; // Import the NoInternetCard component
+import Cookies from 'js-cookie';
 import { toast } from 'react-hot-toast';
 
 function AdminDashboard(props) {
@@ -11,25 +12,34 @@ function AdminDashboard(props) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/products`, {
-                    headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-                    }
-                });
-                setProducts(response.data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const token = Cookies.get('authToken') || sessionStorage.getItem('authToken');
 
-        fetchProducts();
-    }, [apiUrl]);
+        if (!token) {
+            navigate('/auth'); // Redirect to login if no token is found
+        } else {
+            sessionStorage.setItem('authToken', token); // Ensure token is in session storage
+
+            const fetchProducts = async () => {
+                try {
+                    const response = await axios.get(`${apiUrl}/products`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    setProducts(response.data);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProducts();
+        }
+    }, [apiUrl, navigate]);
 
     const handleProductDelete = (deletedProductId) => {
         setProducts(products.filter(product => product._id !== deletedProductId));
@@ -37,7 +47,6 @@ function AdminDashboard(props) {
 
     return (
         <div>
-
             <h1 className='text-start ml-5 font-semibold mt-5'>Listed Products</h1>
             <div className='md:flex flex-wrap'>
                 {loading && <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
