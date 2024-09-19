@@ -6,11 +6,11 @@ function footer(props) {
       <div>
       <div className='md:grid grid-cols-3  p-10 '>
             <div className='md:col-span-1 max-sm:mt-5'>
-                <h1 className="text-twitter text-2xl font-mono font-bold ">Aabha Trade</h1>
+                <h1 className="text-title text-2xl font-mono font-bold ">Aabha Trade</h1>
                 <p className='mt-3 text-xl'>Your one-stop shop for fresh produce, pantry staples, and everyday essentials. Quality goods, friendly service, and convenience in every aisle.</p>
             </div>
             <div className='md:col-span-1 contact max-sm:mt-5'>
-            <h1 className="text-twitter text-2xl font-mono font-bold ">Get in Touch</h1>
+            <h1 className="text-title text-2xl font-mono font-bold ">Get in Touch</h1>
                 <div className='flex mt-4'>
                     <i className='fi fi-rs-marker text-[20px] mr-3 '></i><p>Balkumari-9 Lalitpur</p>
                 </div>
@@ -23,7 +23,7 @@ function footer(props) {
 
             </div>
             <div className='md:col-span-1 max-sm:hidden'>
-            <h1 className="text-twitter  text-2xl  font-bold max-sm:mt-5 ">Get Updates</h1>
+            <h1 className="text-title  text-2xl  font-bold max-sm:mt-5 ">Get Updates</h1>
             <p className='text-2xl mt-3 text-dark-grey '>Your Email</p>
             <InputBox
               name="email"
