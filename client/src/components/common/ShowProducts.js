@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -7,6 +7,8 @@ import './ShowProducts.css';
 const ShowProducts = (props) => {
     const [addedToCart, setAddedToCart] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false); // State for favorite
+    const [isInView, setIsInView] = useState(false); // State for detecting scroll into view
+    const imageRef = useRef(null); // Reference for the product image
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
 
     // Handle toggling favorite
@@ -19,6 +21,7 @@ const ShowProducts = (props) => {
         setAddedToCart(!addedToCart); // Toggle cart state
     };
 
+    // Handle product deletion
     const handleDeleteClick = async () => {
         try {
             await axios.delete(`${apiUrl}/products/${props.id}`, {
@@ -34,6 +37,32 @@ const ShowProducts = (props) => {
         }
     };
 
+    // Use IntersectionObserver to detect when the product image is in view
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setIsInView(true);
+                    } else {
+                        setIsInView(false);
+                    }
+                });
+            },
+            { threshold: 0.1 } // Trigger when 10% of the image is visible
+        );
+
+        if (imageRef.current) {
+            observer.observe(imageRef.current);
+        }
+
+        return () => {
+            if (imageRef.current) {
+                observer.unobserve(imageRef.current);
+            }
+        };
+    }, []);
+
     return (
         <div className={`contenedorCards ${addedToCart ? 'enCarrito' : ''} ${isFavorite ? 'esFav' : ''}`}>
             <div className="card">
@@ -41,10 +70,11 @@ const ShowProducts = (props) => {
                     <div className="colorProd"></div>
                     <Link to={`/product/${props.id}`}>
                         <div
-                            className="imgProd"
+                            className={`imgProd ${isInView ? 'animate-on-scroll' : ''}`} // Add animation class based on isInView
                             style={{
                                 backgroundImage: 'url(' + props.src + ')',
                             }}
+                            ref={imageRef} // Reference for the image
                         ></div>
                     </Link>
 

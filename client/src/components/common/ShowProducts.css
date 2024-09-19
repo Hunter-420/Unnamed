@@ -106,6 +106,17 @@ body ul, body li {
   transform: scale(0);
 }
 
+.imgProd {
+  /* Default styles */
+  transition: transform 0.3s ease-in-out;
+}
+
+.imgProd.animate-on-scroll {
+  transform: translateY(-10px); /* Lifts the image upward */
+}
+
+
+
 .card .wrapper {
   padding-top: 300px;
   box-sizing: border-box;

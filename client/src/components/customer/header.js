@@ -7,7 +7,8 @@ const Navbar = (props) => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
-  const [searchResults, setSearchResults] = useState([]); // Added for filtering
+  const [searchResults, setSearchResults] = useState([]); // For filtered products
+  const [activeCategory, setActiveCategory] = useState("All"); // Track the active category
   const inputRef = useRef();
   const searchBoxRef = useRef();
   const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
@@ -44,34 +45,28 @@ const Navbar = (props) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) {
-      alert("Please enter a search query.");
-      return;
-    }
-
+  const handleSearch = async (query) => {
     try {
       const response = await axios.get(`${apiUrl}/products/search`, {
-        params: { query: searchQuery },
+        params: { query },
       });
 
       if (response.data.length === 0) {
-        <p>No Product Found</p>
-
+        alert("No Product Found");
       }
 
-      setSearchResults(response.data); // Update search results only
+      setSearchResults(response.data); // Update search results
     } catch (error) {
       console.error("Error fetching products:", error);
       alert("An error occurred while searching. Please try again.");
     }
   };
 
-  const handleSearchDebounced = useCallback(debounce(handleSearch, 300), [searchQuery]);
+  const handleSearchDebounced = useCallback(debounce(handleSearch, 300), []);
 
   useEffect(() => {
     if (searchQuery) {
-      handleSearchDebounced();
+      handleSearchDebounced(searchQuery);
     } else {
       setSearchResults([]); // Clear search results if search query is cleared
     }
@@ -90,8 +85,19 @@ const Navbar = (props) => {
     };
   }, [searchBoxRef]);
 
+  // Handle quick category search
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    if (category === "All") {
+      setSearchQuery("");
+    } else {
+      setSearchQuery(category);
+      handleSearch(category); // Fetch related products
+    }
+  };
+
   return (
-    <>
+    <di>
       <nav className="navbar">
         <Link to="/" className="flex-none w-70">
           <h1 className="text-2xl font-bold">Aabha Trade</h1>
@@ -143,9 +149,20 @@ const Navbar = (props) => {
         </div>
       </nav>
 
-      {props.type === "admin" && (
-        <h1 className="mt-3 text-xl">Welcome back, <span className="text-purple text-lg font-semibold">Aabha Trade</span></h1>
-      )}
+      {/* Category Buttons */}
+      <div className="category-buttons flex space-x-2 mt-4">
+        {["All", "Shampoo", "Soap", "Oil", "Toothpaste"].map((category) => (
+          <button
+            key={category}
+            className={`py-2 px-4 rounded-lg ${
+              activeCategory === category ? "bg-black text-white" : "bg-gray-300"
+            }`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
 
       {/* Show only search results when search is active */}
       {searchQuery && searchResults.length > 0 ? (
@@ -179,7 +196,7 @@ const Navbar = (props) => {
           ))}
         </div>
       )}
-    </>
+    </di>
   );
 };
 
