@@ -14,6 +14,18 @@ function ProductDetails(props) {
     const apiUrl = process.env.REACT_APP_SERVER_DOMAIN; // Ensure this is correctly set in your .env file
 
     useEffect(() => {
+        // Check and handle page refresh
+        if (!localStorage.getItem('refreshed')) {
+            // Set a flag in local storage
+            localStorage.setItem('refreshed', 'true');
+        
+            // Refresh the page
+            window.location.reload();
+        } else {
+            // Remove the flag after reload
+            localStorage.removeItem('refreshed');
+        }
+
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/products/${id}`, {

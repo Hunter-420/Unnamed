@@ -69,7 +69,7 @@ body ul, body li {
   flex-direction: row;
   flex-wrap: wrap;
 
-  min-height: 100vh;
+  min-height: fit-content;
   padding: 20px 0;
   box-sizing: border-box;
 }
@@ -251,3 +251,9 @@ body ul, body li {
 .card .infoProd .actions .action.alCarrito svg.inCart {
   transform: scale(0);
 }
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+
+  font-size: 150px;
+  
+  }

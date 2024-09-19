@@ -7,10 +7,14 @@ const Navbar = (props) => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
+  const [searchResults, setSearchResults] = useState([]); // Added for filtering
   const inputRef = useRef();
   const searchBoxRef = useRef();
   const apiUrl = process.env.REACT_APP_SERVER_DOMAIN;
-  const authToken = sessionStorage.getItem('authToken'); // Ensure authToken is defined here
+  const authToken = sessionStorage.getItem("authToken");
+
+  // Check if the page has been refreshed before
+  const hasRefreshed = localStorage.getItem("hasRefreshed");
 
   useEffect(() => {
     if (searchBoxVisibility) {
@@ -20,6 +24,20 @@ const Navbar = (props) => {
 
   const handleSearchClick = () => {
     setSearchBoxVisibility(!searchBoxVisibility);
+
+    // Refresh the page only the first time search is clicked
+    if (!hasRefreshed) {
+      localStorage.setItem("hasRefreshed", "true");
+      window.location.reload(); // Refresh the page once
+    }
+
+    if (!searchBoxVisibility) {
+      inputRef.current.focus();
+    } else {
+      setSearchQuery(""); // Clear the search query when closing search box
+      setSearchResults([]); // Clear search results when search box is closed
+      inputRef.current.blur();
+    }
   };
 
   const handleInputChange = (e) => {
@@ -27,25 +45,35 @@ const Navbar = (props) => {
   };
 
   const handleSearch = async () => {
-    if (searchQuery.trim() === "") return;
+    if (!searchQuery.trim()) {
+      alert("Please enter a search query.");
+      return;
+    }
+
     try {
       const response = await axios.get(`${apiUrl}/products/search`, {
-        params: { query: searchQuery }
+        params: { query: searchQuery },
       });
-      setProducts(response.data);
+
+      if (response.data.length === 0) {
+        <p>No Product Found</p>
+
+      }
+
+      setSearchResults(response.data); // Update search results only
     } catch (error) {
       console.error("Error fetching products:", error);
+      alert("An error occurred while searching. Please try again.");
     }
   };
 
-  // Use useCallback to ensure handleSearch is not recreated on every render
   const handleSearchDebounced = useCallback(debounce(handleSearch, 300), [searchQuery]);
 
   useEffect(() => {
     if (searchQuery) {
       handleSearchDebounced();
     } else {
-      setProducts([]);
+      setSearchResults([]); // Clear search results if search query is cleared
     }
   }, [searchQuery, handleSearchDebounced]);
 
@@ -81,17 +109,18 @@ const Navbar = (props) => {
             placeholder="Search"
             id="search"
             ref={inputRef}
+            aria-label="Search products"
             className="md:w-full max-sm:w-full max-sm:mb-3 bg-gray p-4 pl-6 pr-[12%] md:pr-6 rounded-full placeholder:text-dark-grey md:pl-12"
             value={searchQuery}
             onChange={handleInputChange}
           />
-          <Link
-            to="#"
+          <button
+            aria-label="Search"
             className="absolute right-[7%] max-sm:right-[14%] md:pointer-events-none top-1/2 -translate-y-1/2"
             onClick={handleSearch}
           >
             <i className="fi fi-rr-search text-xl text-dark-grey"></i>
-          </Link>
+          </button>
         </div>
 
         <div className="flex items-center gap-5 md:gap-6 ml-auto">
@@ -101,21 +130,41 @@ const Navbar = (props) => {
           >
             <i className="fi fi-rr-search"></i>
           </button>
-          {props.type === "admin" ? <Link to="/" className="py-3 px-9 md:block">
-            <i className="fi fi-ts-target-audience text-[20px]"></i>
-          </Link> :
+          {props.type === "admin" && (
+            <Link to="/" className="py-3 px-9 md:block">
+              <i className="fi fi-ts-target-audience text-[20px]"></i>
+            </Link>
+          )}
+          {props.type !== "admin" && (
             <Link to={authToken ? "/admin" : "/auth"} className="py-3 px-9 md:block">
               <i className="fi fi-ts-admin-alt text-[20px]"></i>
             </Link>
-          }
+          )}
         </div>
       </nav>
+
       {props.type === "admin" && (
-        <h1 className='mt-3 text-xl'>Welcome back, <span className='text-purple text-lg font-semibold'>Aabha Trade</span></h1>
+        <h1 className="mt-3 text-xl">Welcome back, <span className="text-purple text-lg font-semibold">Aabha Trade</span></h1>
       )}
 
-      {products.length > 0 && (
-        <div className="product-list">
+      {/* Show only search results when search is active */}
+      {searchQuery && searchResults.length > 0 ? (
+        <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {searchResults.map((product) => (
+            <ShowProducts
+              key={product._id} // Ensure `_id` or a unique identifier is used
+              id={product._id}
+              src={product.src}
+              alt={product.alt}
+              title={product.title}
+              manufacturer={product.manufacturer}
+              price={product.price}
+              type={props.type}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
           {products.map((product) => (
             <ShowProducts
               key={product._id} // Ensure `_id` or a unique identifier is used
@@ -140,11 +189,8 @@ export default Navbar;
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
+    const context = this;
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    timeout = setTimeout(() => func.apply(context, args), wait);
   };
 }
