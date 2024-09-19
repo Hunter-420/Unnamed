@@ -67,8 +67,8 @@ function AdminDashboard(props) {
                     />
                 ))}
             </div>
-
-            <div className="fixed bottom-0 left-0 right-0 bg-white p-4 md:w-[800px] max-sm:w-full max-sm:pr-10 mx-auto md:border-0">
+            <div className='mb-10'></div>
+            <div className="fixed bottom-0 left-0 right-0 bg-white p-4 md:w-[800px] max-sm:w-full max-sm:pr-10 mx-auto md:border-0 ">
                 {/* Input for Add Products */}
                 <input
                     type="text"

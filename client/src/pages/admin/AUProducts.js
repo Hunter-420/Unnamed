@@ -133,6 +133,15 @@ function AUProducts(props) {
 
             <form onSubmit={handleSubmit}>
                 <InputBox
+                    name="src"
+                    type="file"
+                    placeholder="Product Image"
+                    icon="fi-tr-add-image"
+                    value={product.src}
+                    onChange={handleFileUpload}
+                />
+
+                <InputBox
                     name="title"
                     type="text"
                     placeholder="Product Name"
@@ -184,14 +193,7 @@ function AUProducts(props) {
                         { value: 'unavailable', label: 'Unavailable' }
                     ]}
                 />
-                <InputBox
-                    name="src"
-                    type="file"
-                    placeholder="Product Image"
-                    icon="fi-tr-add-image"
-                    value={product.src}
-                    onChange={handleFileUpload}
-                />
+
                 <button className='btn-dark max-sm:w-full' type="submit">
                     {props.type === "update-product" ? "Update Product" : "Add Product"}
                 </button>
