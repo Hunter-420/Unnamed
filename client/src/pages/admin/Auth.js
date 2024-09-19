@@ -26,7 +26,12 @@ function Auth() {
                 Cookies.set('authToken', data.token, { expires: 7 }); // Store the token in a cookie for 7 days
                 sessionStorage.setItem('authToken', data.token); // Store the token in session storage
                 console.log('Token stored in session storage:', sessionStorage.getItem('authToken')); // Debugging log
-                navigate('/admin'); // Redirect to admin page on successful authentication
+
+                // Redirect and refresh the page after successful authentication
+                navigate('/admin');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 100); // Delay added to ensure navigation completes
             } else {
                 toast.error("Authentication failed. Please try again.");
             }
@@ -74,7 +79,7 @@ function Auth() {
                         Welcome back,
                     </h1>
                     <h1 className="text-4xl font-gelasio capitalize text-center mb-16">
-                        Aabha Trade
+                        Abha Trade
                     </h1>
                     <InputBox
                         name="email"

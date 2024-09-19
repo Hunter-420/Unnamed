@@ -55,23 +55,29 @@ const ShowProducts = (props) => {
                             <div className="preciosGrupo">
                                 <p className="precio precioProd">{props.price}</p>
                             </div>
-                            {/* Add to Favorites */}
-                            <div className="icono action aFavs" onClick={handleFavoriteClick}>
-                                {isFavorite ? (
-                                    <i className="fi fi-sr-heart text-[30px]"></i>
-                                ) : (
-                                    <i className="fi fi-br-heart text-[30px] "></i>
-                                )}
-                            </div>
-                            {/* Add to Cart */}
-                            <div className="icono action alCarrito" onClick={handleCartClick}>
-                                {addedToCart ? (
-                                    <i className="fi fi-rr-shopping-cart-check text-[30px]"></i>
-                                ) : (
-                                    <i className="fi fi-rr-shopping-cart-add text-[30px]"></i>
-                                )}
-                            </div>
-                            {props.type === 'admin' ? (
+
+                            {/* Render heart and cart icons only if the user is not an admin */}
+                            {props.type !== 'admin' && (
+                                <>
+                                    <div className="icono action aFavs" onClick={handleFavoriteClick}>
+                                        {isFavorite ? (
+                                            <i className="fi fi-sr-heart text-[30px]"></i>
+                                        ) : (
+                                            <i className="fi fi-br-heart text-[30px] "></i>
+                                        )}
+                                    </div>
+                                    <div className="icono action alCarrito" onClick={handleCartClick}>
+                                        {addedToCart ? (
+                                            <i className="fi fi-rr-shopping-cart-check text-[30px]"></i>
+                                        ) : (
+                                            <i className="fi fi-rr-shopping-cart-add text-[30px]"></i>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Render edit and delete buttons only if the user is an admin */}
+                            {props.type === 'admin' && (
                                 <div className='flex justify-between mt-3'>
                                     <Link to={`/update-product/${props.id}`}>
                                         <button className='btn-light font-semibold'>
@@ -82,8 +88,6 @@ const ShowProducts = (props) => {
                                         <i className="fi fi-rr-trash text-red text-[20px]"></i>
                                     </button>
                                 </div>
-                            ) : (
-                                <div className='flex justify-between'></div>
                             )}
                         </div>
                     </div>
