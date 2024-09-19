@@ -79,7 +79,7 @@ const ShowProducts = (props) => {
                     </Link>
 
                     <div className="infoProd">
-                        <p className="nombreProd">{props.title}</p>
+                        <p className="nombreProd ">{props.title}</p>
                         <p className="extraInfo">{props.manufacturer}</p>
                         <div className="actions">
                             <div className="preciosGrupo">
@@ -108,6 +108,8 @@ const ShowProducts = (props) => {
 
                             {/* Render edit and delete buttons only if the user is an admin */}
                             {props.type === 'admin' && (
+                                <>
+                                <div className='pt-10'></div>
                                 <div className='flex justify-between mt-3'>
                                     <Link to={`/update-product/${props.id}`}>
                                         <button className='btn-light font-semibold'>
@@ -118,6 +120,7 @@ const ShowProducts = (props) => {
                                         <i className="fi fi-rr-trash text-red text-[20px]"></i>
                                     </button>
                                 </div>
+                                </>
                             )}
                         </div>
                     </div>
