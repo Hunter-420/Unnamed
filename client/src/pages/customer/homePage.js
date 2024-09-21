@@ -31,7 +31,7 @@ function HomePage(props) { // React component names should be capitalized
   }, [apiUrl]); // Add apiUrl to dependencies if it changes
 
   return (
-    <div className='md:flex'>
+    <div className='md:flex flex-wrap '>
       {loading &&   <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-50">
                     <ClipLoader color="#123abc" loading={loading} size={50} />
                 </div>}

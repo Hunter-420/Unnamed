@@ -6,7 +6,7 @@ import Footer from '../components/customer/footer';
 
 function customer(props) {
     return (
-        <div className='md:pl-20 md:pr-20'>
+        <div className='relative min-h-screen'>
            <Header type={"customer"}/>
            <Outlet />
            <Footer />

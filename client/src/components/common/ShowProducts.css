@@ -42,6 +42,10 @@ body ul, body li {
   flex-direction: row;
 }
 
+.flex-direction {
+  flex-direction: row;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -51,7 +55,7 @@ body ul, body li {
 }
 
 .flex-nowrap {
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .flex-center {
@@ -70,7 +74,7 @@ body ul, body li {
   flex-wrap: wrap;
 
   min-height: fit-content;
-  padding: 20px 0;
+  padding: 10px 20px;
   box-sizing: border-box;
 }
 
@@ -83,7 +87,7 @@ body ul, body li {
 }
 
 .card {
-  width: 300px;
+  width: 370px;
   transition: ease all .3s;
   margin: 60px 10px 10px 10px;
 }
