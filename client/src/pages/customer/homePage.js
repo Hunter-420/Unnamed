@@ -43,7 +43,7 @@ function HomePage(props) { // React component names should be capitalized
           src={product.src}
           alt={product.alt}
           title={product.title}
-          manufacturer={product.manufacturer}
+          manufacturer={product.manufacturer} 
           price={product.price}
           type="customer"
         />
