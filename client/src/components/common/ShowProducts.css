@@ -202,7 +202,7 @@ body ul, body li {
 
 .card .infoProd .actions .preciosGrupo .precio {
   font-family: "Roboto", sans-serif;
-  color: #1d1d1d;
+  color: #666;
   font-size: 25px;
   font-weight: 600;
   text-align: left;
@@ -263,8 +263,41 @@ body ul, body li {
   transform: scale(0);
 }
 
-[class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
-
-  font-size: 150px;
-  
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+    margin: 10px 0;
   }
+
+ 
+
+  .card .imgProd {
+    height: 200px;
+  }
+
+  .card .infoProd {
+    height: 150px;
+  }
+
+  .card .infoProd .nombreProd {
+    font-size: 14px;
+  }
+
+  .card .infoProd .actions .precio {
+    font-size: 20px;
+  }
+
+  .card .infoProd .actions .precio.precioOferta {
+    font-size: 12px;
+  }
+
+  .card .infoProd .actions .action {
+    width: 30px;
+    height: 30px;
+  }
+
+  .card .infoProd .actions .action.aFavs {
+    width: 20px;
+    height: 20px;
+  }
+}

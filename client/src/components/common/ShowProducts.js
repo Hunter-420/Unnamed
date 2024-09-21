@@ -83,7 +83,7 @@ const ShowProducts = (props) => {
                         <p className="extraInfo">{props.manufacturer}</p>
                         <div className="actions">
                             <div className="preciosGrupo">
-                                <p className="precio precioProd">{props.price}</p>
+                                <p className="precio precioProd"> {props.price}</p>
                             </div>
 
                             {/* Render heart and cart icons only if the user is not an admin */}
